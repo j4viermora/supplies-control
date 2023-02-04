@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { PaginateModel } from 'mongoose';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 import { UpdateTreatmentDto } from './dto/update-treatment.dto';
+import { Treatment } from './schemas/treatment.schema';
+import { PaginationDto } from 'src/common/dto/pagination.dto'
 
 @Injectable()
 export class TreatmentsService {
-  create(createTreatmentDto: CreateTreatmentDto) {
-    return 'This action adds a new treatment';
+
+  constructor(
+    @InjectModel(Treatment.name)
+    private readonly treatmentModel: PaginateModel<Treatment>,
+  ) { }
+
+  async create(createTreatmentDto: CreateTreatmentDto) {
+    const createdTreatment = await this.treatmentModel.create(createTreatmentDto);
+    return createdTreatment
   }
 
-  findAll() {
-    return `This action returns all treatments`;
+  async findAll(companyId: string, queryParams: PaginationDto) {
+    const { page, limit } = queryParams;
+    const resp = await this.treatmentModel.paginate({ companyId }, { page, limit });
+    if (!resp) new NotFoundException("Treatment not found")
+    return resp;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} treatment`;
+  async findOne(id: string) {
+    const resp = this.treatmentModel.findById(id);
+    if (!resp) new NotFoundException("Treatment not found")
+    return resp;
   }
 
-  update(id: string, updateTreatmentDto: UpdateTreatmentDto) {
-    return `This action updates a #${id} treatment`;
+  async update(id: string, updateTreatmentDto: UpdateTreatmentDto) {
+    const treatmetnUpdated = await this.treatmentModel.findByIdAndUpdate(id, updateTreatmentDto, { new: true });
+    return treatmetnUpdated;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} treatment`;
+  async remove(id: string) {
+    const resp = await this.treatmentModel.findByIdAndUpdate(id, { status: 'inactive' }, { new: true });
+    if (!resp) new NotFoundException("Treatment not found")
+    return resp;
   }
 }

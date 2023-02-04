@@ -3,8 +3,10 @@ import { Document, Types } from "mongoose";
 import { STATUS_DOCUMENT } from "src/common/enums/common.enums";
 import { IItemTreatment } from "src/common/interfaces";
 
+
+
 @Schema({ timestamps: true })
-export class TreatmentsTemplate extends Document {
+export class Treatment extends Document {
 
     @Prop({ required: true, ref: 'Company' })
     readonly companyId: Types.ObjectId;
@@ -16,12 +18,18 @@ export class TreatmentsTemplate extends Document {
     readonly description: string;
 
     @Prop({
-        required: true, type: [
+        required: true,
+        type: [
             {
-                name: { type: String, required: true },
-            },
-            {
-                id: { type: Types.ObjectId, required: true, ref: 'Item' },
+                name: {
+                    type: String,
+                },
+                quantity: {
+                    type: Number,
+                },
+                id: {
+                    type: Types.ObjectId,
+                }
             }
         ]
     })
@@ -34,4 +42,4 @@ export class TreatmentsTemplate extends Document {
 
 
 
-export const TreatmentsTemplateSchema = SchemaFactory.createForClass(TreatmentsTemplate);
+export const TreatmentsSchema = SchemaFactory.createForClass(Treatment);
