@@ -1,0 +1,14 @@
+{
+    "local": {
+        "base_api_url": "http://localhost:3000/api/v1",
+        "base_url": "http://localhost:3000"
+    },
+    "production": {
+        "base_api_url": "https://api.example.com/api/v1",
+        "base_url": "https://example.com"
+    },
+    "testing": {
+        "base_api_url": "https://api.staging.example.com/api/v1",
+        "base_url": "https://staging.example.com"
+    }
+}
