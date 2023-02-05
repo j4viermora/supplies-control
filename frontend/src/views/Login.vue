@@ -23,19 +23,19 @@
 
           <a-form-item
             label="Password"
-            name="email"
+            name="password"
             :rules="[
               { required: true, message: 'Por favor ingresa tu clave!' },
             ]"
           >
             <a-input-password v-model:value="formState.password" />
           </a-form-item>
-
+          <!-- 
           <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
             <a-checkbox v-model:checked="formState.remember"
               >Recuerdame</a-checkbox
             >
-          </a-form-item>
+          </a-form-item> -->
 
           <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
             <a-button type="primary" html-type="submit"
@@ -49,19 +49,23 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
+import { useAuth } from "../composables";
+import { Login } from "../interfaces/auth.interfaces";
+
+const auth = useAuth();
 
 interface FormState {
   email: string;
   password: string;
-  remember: boolean;
+  // remember: boolean;
 }
 const formState = reactive<FormState>({
   email: "",
   password: "",
-  remember: true,
+  // remember: true,
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = (values: Login) => {
+  auth.login(values);
 };
 
 const onFinishFailed = (errorInfo: any) => {
