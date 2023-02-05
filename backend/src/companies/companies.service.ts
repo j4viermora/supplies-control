@@ -10,83 +10,83 @@ import { Company } from './entities/company.entity';
 export class CommunitiesService {
   constructor(
     @InjectModel(Company.name)
-    private readonly communityModel: PaginateModel<Company>,
+    private readonly companyModel: PaginateModel<Company>,
   ) { }
 
   async create(createCompanyDto: CreateCompanyDto) {
     const exist = await this.existEmail(createCompanyDto.email);
     if (exist)
       return new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
-    const totalCommunities = await this.communityModel.find({}).count();
+    const totalCommunities = await this.companyModel.find({}).count();
     const code = this.createCode(totalCommunities);
-    const data = await this.communityModel.create({
+    const data = await this.companyModel.create({
       code,
       ...createCompanyDto,
     });
     return {
-      message: 'Community created successfully',
+      message: 'Company created successfully',
       data,
     };
   }
 
   async findAll({ limit = 4, page = 1 }: PaginationDto) {
-    return await this.communityModel.paginate({}, { page, limit });
+    return await this.companyModel.paginate({}, { page, limit });
   }
 
   async findOne(id: Types.ObjectId) {
-    const community = await this.communityModel
+    const company = await this.companyModel
       .findOne({ _id: id })
       .select('-__v');
-    if (!community) return [];
-    return community;
+    if (!company) return [];
+    return company;
   }
 
   async existEmail(email: string) {
-    const community = await this.communityModel
+    const company = await this.companyModel
       .findOne({ email })
       .countDocuments();
-    if (!community) return false;
+    if (!company) return false;
     return true;
   }
 
   async update(id: string, UpdateCompanyDto: UpdateCompanyDto) {
-    const result = await this.communityModel.findByIdAndUpdate(
+    const result = await this.companyModel.findByIdAndUpdate(
       id,
       UpdateCompanyDto,
       { new: true },
     );
     if (!result)
-      return new HttpException('Community not found', HttpStatus.NOT_FOUND);
+      return new HttpException('Company not found', HttpStatus.NOT_FOUND);
     return result;
   }
 
   async remove(id: string) {
-    const result = await this.communityModel.findOneAndDelete({ _id: id });
+    const result = await this.companyModel.findOneAndDelete({ _id: id });
     if (!result)
-      return new HttpException('Community not found', HttpStatus.NOT_FOUND);
+      return new HttpException('Company not found', HttpStatus.NOT_FOUND);
     return {
-      message: 'Community deleted successfully',
+      message: 'Company deleted successfully',
     };
   }
 
   async activate(id: string) {
-    const result = await this.communityModel.findByIdAndUpdate(
+    const result = await this.companyModel.findByIdAndUpdate(
       id,
       { status: 'active' },
       { new: true },
     );
     if (!result)
-      return new HttpException('Community not found', HttpStatus.NOT_FOUND);
+      return new HttpException('Company not found', HttpStatus.NOT_FOUND);
     return result;
   }
   async deactivate(id: string) {
-    const result = await this.communityModel.findByIdAndUpdate(
+    const result = await this.companyModel.findByIdAndUpdate(
       id,
       { status: 'deactive' },
       { new: true },
     );
     if (!result)
-      return new HttpException('Community not found', HttpStatus.NOT_FOUND);
+      return new HttpException('Company not found', HttpStatus.NOT_FOUND);
     return result;
   }
   createCode(totalRegisters) {

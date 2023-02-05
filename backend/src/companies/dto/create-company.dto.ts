@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { StatusCommunity } from '../enums/communities.enums';
+import { StatusCompany } from '../enums/communities.enums';
 
 export class CreateCompanyDto {
   @IsString()
@@ -23,6 +23,6 @@ export class CreateCompanyDto {
 
   @IsString()
   @IsOptional()
-  @IsEnum(StatusCommunity)
-  active: StatusCommunity;
+  @IsEnum(StatusCompany)
+  active: StatusCompany;
 }

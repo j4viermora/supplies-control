@@ -60,7 +60,7 @@ export class UsersService {
 
     return await this.userModel.paginate(
       {
-        community: id,
+        companyId: id,
         ...(dni ? { dni } : {}),
         ...(name ? { name: new RegExp(name, 'i') } : {}),
       },
@@ -93,9 +93,9 @@ export class UsersService {
     return user;
   }
 
-  async byName(communityId: string, name: string) {
+  async byName(companyId: string, name: string) {
     const result = await this.userModel.paginate({
-      $and: [{ name: new RegExp(name, 'i') }, { community: communityId }],
+      $and: [{ name: new RegExp(name, 'i') }, { company: companyId }],
     });
 
     if (!result) throw new NotFoundException('User not found');
@@ -133,7 +133,7 @@ export class UsersService {
   /**
    *
    * @param id User id
-   * @returns Session with community, location info
+   * @returns Session with company and other stuffs
    */
   async self(id: string) {
     const result = await this.userModel

@@ -21,8 +21,8 @@ export class CompanyController {
   constructor(private readonly communitiesService: CommunitiesService) { }
 
   @Post()
-  create(@Body() createCommunityDto: CreateCompanyDto) {
-    return this.communitiesService.create(createCommunityDto);
+  create(@Body() createCompanyDTO: CreateCompanyDto) {
+    return this.communitiesService.create(createCompanyDTO);
   }
 
   @Get()

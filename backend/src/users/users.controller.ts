@@ -39,13 +39,13 @@ export class UsersController {
   @Get(':id/by-name/:name')
   findByName(
     @Param('name') name: string,
-    @Param('id', ParseMongoIdPipe) communityId: string,
+    @Param('id', ParseMongoIdPipe) companyId: string,
   ) {
-    return this.usersService.byName(communityId, name);
+    return this.usersService.byName(companyId, name);
   }
 
-  @Get('community/:id')
-  findAllByCommunityId(
+  @Get('company/:id')
+  findAllByCompanyId(
     @Param('id', ParseMongoIdPipe) id: string,
     @Query() QueryOptionsDto: UsersQueryOptionsDto,
   ) {
