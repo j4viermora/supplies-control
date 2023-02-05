@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <section>
+      <a-alert v-if="isError" message="Clave o email erroneos" type="error" />
+      <a-divider v-if="isError" />
       <a-card title="Inicio de sesión">
         <a-form
           :model="formState"
@@ -38,7 +40,7 @@
           </a-form-item> -->
 
           <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-            <a-button type="primary" html-type="submit"
+            <a-button type="primary" html-type="submit" :loading="isLoading"
               >Iniciar sesion</a-button
             >
           </a-form-item>
@@ -52,7 +54,7 @@ import { reactive } from "vue";
 import { useAuth } from "../composables";
 import { Login } from "../interfaces/auth.interfaces";
 
-const auth = useAuth();
+const { isLoading, login, isError } = useAuth();
 
 interface FormState {
   email: string;
@@ -65,7 +67,7 @@ const formState = reactive<FormState>({
   // remember: true,
 });
 const onFinish = (values: Login) => {
-  auth.login(values);
+  login(values);
 };
 
 const onFinishFailed = (errorInfo: any) => {

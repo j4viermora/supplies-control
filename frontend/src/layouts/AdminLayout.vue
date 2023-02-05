@@ -3,32 +3,44 @@
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
       <div class="logo" />
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <router-link :to="{ name: 'home' }">
-          <a-menu-item key="1">
+        <a-menu-item key="1">
+          <router-link :to="{ name: 'home' }">
             <pie-chart-outlined />
-            <span>Inicio</span>
-          </a-menu-item>
-        </router-link>
+            <a-skeleton v-if="isLoading" />
+            <span v-else>Inicio</span>
+          </router-link>
+        </a-menu-item>
 
-        <router-link :to="{ name: 'contacts' }">
-          <a-menu-item key="2">
+        <a-menu-item key="2">
+          <router-link :to="{ name: 'contacts' }">
             <desktop-outlined />
-            <span>Contactos</span>
-          </a-menu-item>
-        </router-link>
-        <router-link :to="{ name: 'treatments' }">
-          <a-menu-item key="3">
+            <a-skeleton v-if="isLoading" />
+            <span v-else>Contactos</span>
+          </router-link>
+        </a-menu-item>
+        <a-menu-item key="3">
+          <router-link :to="{ name: 'treatments' }">
             <file-outlined />
-            <span>Tratamientos</span>
-          </a-menu-item>
-        </router-link>
+            <a-skeleton v-if="isLoading" />
+            <span v-else>Tratamientos</span>
+          </router-link>
+        </a-menu-item>
 
-        <router-link :to="{ name: 'settings' }">
-          <a-menu-item key="4">
+        <a-menu-item key="2">
+          <router-link :to="{ name: 'items' }">
+            <desktop-outlined />
+            <a-skeleton v-if="isLoading" />
+            <span v-else>Insumos</span>
+          </router-link>
+        </a-menu-item>
+
+        <a-menu-item key="4">
+          <router-link :to="{ name: 'settings' }">
             <file-outlined />
-            <span>Configuracion</span>
-          </a-menu-item>
-        </router-link>
+            <a-skeleton v-if="isLoading" />
+            <span v-else>Configuracion</span>
+          </router-link>
+        </a-menu-item>
         <!-- <a-sub-menu key="sub1">
           <template #title>
             <span>
@@ -43,7 +55,14 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0" />
+      <a-layout-header class="custom-layout-header">
+        <a-button type="primary" @click="logout">
+          <template #icon>
+            <LogoutOutlined />
+          </template>
+          Salir
+        </a-button>
+      </a-layout-header>
       <a-layout-content style="margin: 0 16px">
         <div
           :style="{
@@ -53,7 +72,8 @@
             marginTop: '1rem',
           }"
         >
-          <router-view></router-view>
+          <a-spin v-if="isLoading" size="large" />
+          <router-view v-else="isLoading"></router-view>
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
@@ -67,11 +87,18 @@
 import {
   PieChartOutlined,
   DesktopOutlined,
-  UserOutlined,
-  TeamOutlined,
   FileOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons-vue";
 import { ref } from "vue";
+import { useSession, useAuth } from "../composables";
+
+const { getSession, isLoading, session } = useSession();
+const { logout } = useAuth();
+
+getSession();
+
+const { user } = session;
 const collapsed = ref<boolean>(false);
 const selectedKeys = ref<string[]>(["1"]);
 const currentYear = new Date().getFullYear();
@@ -88,5 +115,13 @@ const currentYear = new Date().getFullYear();
 }
 [data-theme="dark"] .site-layout .site-layout-background {
   background: #141414;
+}
+
+.custom-layout-header {
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 1.5rem;
 }
 </style>
