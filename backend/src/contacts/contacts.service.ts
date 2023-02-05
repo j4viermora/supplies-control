@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel } from 'mongoose';
 import { CreateContactDto } from './dto/create-contact.dto';
@@ -15,18 +15,18 @@ export class ContactsService {
   ) { }
 
   async create(createContactDto: CreateContactDto) {
-    try {
-      const contact = await this.contactModel.create(createContactDto)
-      return {
-        ...contact
-      }
-    } catch (e) {
-      new InternalServerErrorException(e)
+    const dniRegistered = await this.contactModel.findOne({ dni: createContactDto.dni })
+
+    if (Boolean(dniRegistered)) {
+      return new BadRequestException('DNI already registered')
     }
+    const contact = await this.contactModel.create(createContactDto)
+    return contact
   }
 
+
   async findAll(companyId: string, queryParams: PaginationDto) {
-    const { limit, page } = queryParams
+    const { limit = 30, page = 1 } = queryParams
     const results = await this.contactModel.paginate({
       companyId
     }, {
@@ -43,6 +43,10 @@ export class ContactsService {
   }
 
   async update(id: string, updateContactDto: UpdateContactDto) {
+    const existContact = await this.contactModel.findById(id)
+    if (existContact) {
+      return new BadRequestException('Contact no registered')
+    }
     const contactUpdated = await this.contactModel.findByIdAndUpdate(id, { ...updateContactDto }, { new: true })
     return contactUpdated
   }

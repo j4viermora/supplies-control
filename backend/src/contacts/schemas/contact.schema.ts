@@ -9,10 +9,10 @@ export class Contact extends Document {
     @Prop({ type: String, required: true })
     lastName: string
 
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true, index: true })
     dni: string
 
-    @Prop({ type: Types.ObjectId, required: true })
+    @Prop({ type: Types.ObjectId, required: true, index: true })
     companyId: string
 
     @Prop({ type: String })
