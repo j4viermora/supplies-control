@@ -10,6 +10,8 @@ import {
   Put,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { Auth } from 'src/auth/decorators';
+import { ValidRoles } from 'src/auth/enums/valid-roles';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
 import { CommunitiesService } from './companies.service';
@@ -26,16 +28,19 @@ export class CompanyController {
   }
 
   @Get()
+  @Auth(ValidRoles.SUPER_USER)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.communitiesService.findAll(paginationDto);
   }
 
   @Get(':id')
+  @Auth(ValidRoles.ADMIN)
   findOne(@Param('id', ParseMongoIdPipe) id: Types.ObjectId) {
     return this.communitiesService.findOne(id);
   }
 
   @Put(':id')
+  @Auth(ValidRoles.ADMIN)
   update(
     @Param('id', ParseMongoIdPipe) id: string,
     @Body() updateCompanyDto: UpdateCompanyDto,
@@ -44,6 +49,7 @@ export class CompanyController {
   }
 
   @Delete(':id')
+  @Auth(ValidRoles.ADMIN)
   remove(@Param('id', ParseMongoIdPipe) id: string) {
     return this.communitiesService.remove(id);
   }
