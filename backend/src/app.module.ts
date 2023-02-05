@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { ItemsModule } from './items/items.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { TreatmentsTemplatesModule } from './treatments-templates/treatments-templates.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 
 @Module({
@@ -39,6 +40,7 @@ import { TreatmentsTemplatesModule } from './treatments-templates/treatments-tem
     ItemsModule,
     TreatmentsModule,
     TreatmentsTemplatesModule,
+    ContactsModule,
 
   ],
   controllers: [AppController],
