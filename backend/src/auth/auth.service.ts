@@ -24,9 +24,11 @@ export class AuthService {
     if (!user) this.notValidCredencials();
     if (!bcrypt.compareSync(password, user.password))
       this.notValidCredencials();
+
+
     return {
       message: 'User authenticated',
-      token: this.getJwt({ _id: user._id, roles: user.roles }),
+      token: this.getJwt({ _id: user._id, roles: user.roles , companyId: user.company }),
     };
   }
 

@@ -15,8 +15,8 @@ export class ItemsService {
 
 
 
-  async create(createItemDto: CreateItemDto) {
-    const item = await this.itemModel.create(createItemDto)
+  async create(companyId: string ,createItemDto: CreateItemDto) {
+    const item = await this.itemModel.create({...createItemDto, companyId})
     return item
   }
 

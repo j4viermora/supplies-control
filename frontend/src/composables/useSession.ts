@@ -1,13 +1,12 @@
-import { ref, reactive } from "vue";
+import { ref } from "vue";
+import { defineStore } from 'pinia'
 import * as user from "../api/user";
 import { ISession } from "../interfaces/session.interfaces";
 
 const isOffline = import.meta.env.VITE_MODE === "offline";
 
-console.log(isOffline);
-
-export const useSession = () => {
-  const session = reactive<ISession>({
+export const useSession = defineStore('session',() => {
+  const session = ref<ISession>({
     user: {
       name: "javier",
       email: "j4viermora@gmail.com",
@@ -26,26 +25,32 @@ export const useSession = () => {
       __v: 0,
     },
   });
-  const isLoading = ref(true);
+  const loading = ref(true);
+  const hasError = ref(false)
 
   const getSession = async () => {
-    isLoading.value = true;
+    loading.value = true;
     try {
       if (isOffline) {
         return;
       }
-      const { data } = await user.getSession();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      const { data } = await user.getSession()
+      session.value = data;
+      hasError.value = false
+    } catch {
+      hasError.value = true
     } finally {
-      isLoading.value = false;
+      loading.value = false;
     }
   };
 
   return {
-    getSession,
-    isLoading,
+    // variables
+    isLoading: loading,
+    hasError,
     session,
+
+    // functions
+    getSession,   
   };
-};
+});

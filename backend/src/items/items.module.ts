@@ -5,10 +5,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Item, ItemSchema } from './entities/item.entity';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
+import {PassportModule} from '@nestjs/passport'
+
 @Module({
   controllers: [ItemsController],
   providers: [ItemsService],
   imports: [
+    PassportModule.register({
+      defaultStrategy: 'jwt'
+    }),
     MongooseModule.forFeatureAsync([
       {
         name: Item.name,

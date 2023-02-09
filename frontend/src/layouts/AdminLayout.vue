@@ -26,7 +26,7 @@
           </router-link>
         </a-menu-item>
 
-        <a-menu-item key="2">
+        <a-menu-item key="4">
           <router-link :to="{ name: 'items' }">
             <desktop-outlined />
             <a-skeleton v-if="isLoading" />
@@ -34,7 +34,7 @@
           </router-link>
         </a-menu-item>
 
-        <a-menu-item key="4">
+        <a-menu-item key="5">
           <router-link :to="{ name: 'settings' }">
             <file-outlined />
             <a-skeleton v-if="isLoading" />
@@ -93,12 +93,11 @@ import {
 import { ref } from "vue";
 import { useSession, useAuth } from "../composables";
 
-const { getSession, isLoading, session } = useSession();
 const { logout } = useAuth();
+const { getSession, isLoading } = useSession();
 
 getSession();
 
-const { user } = session;
 const collapsed = ref<boolean>(false);
 const selectedKeys = ref<string[]>(["1"]);
 const currentYear = new Date().getFullYear();

@@ -18,6 +18,7 @@ import { User, UserSchema } from 'src/users/entities/user.entity';
         schema: UserSchema,
       },
     ]),
+
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),

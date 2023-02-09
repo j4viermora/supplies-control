@@ -1,0 +1,81 @@
+<template>
+    <a-row>
+        <a-typography-title :level="3">Agregar item</a-typography-title>
+    </a-row>
+    <a-form
+      :model="formState"
+      v-bind="layout"
+      name="nest-messages"
+      :validate-messages="validateMessages"
+      @finish="onFinish"
+    >
+      <a-form-item :name="'name'" label="Nombre" :rules="[{ required: true }]">
+        <a-input v-model:value="formState.name" />
+      </a-form-item>
+      <a-form-item :name="'description'" label="Descripción">
+        <a-input v-model:value="formState.description" />
+      </a-form-item>
+      <a-form-item :name="'quantity'" label="Stock" :rules="[{ type: 'number', min: 0, max: 1000 , required:true}]">
+        <a-input-number v-model:value="formState.quantity" />
+      </a-form-item>
+      <a-form-item :name="'brand'" label="Marca" :rules="[{ required: true }]">
+        <a-input v-model:value="formState.brand" />
+      </a-form-item>
+      <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 8 }">
+        <a-button type="primary" html-type="submit">Registrar</a-button>
+      </a-form-item>
+    </a-form>
+  </template>
+  <script lang="ts" setup>
+  import { reactive ,ref} from 'vue';
+  import { notification } from 'ant-design-vue';
+  import {useItems} from '../../../composables'
+
+  const isLoading = ref(false)
+  const { addItems } = useItems()
+  
+      const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 },
+      };
+  
+      const validateMessages = {
+        required: '${label} is required!',
+        types: {
+          number: '${label} is not a valid number!',
+        },
+        number: {
+          range: '${label} must be between ${min} and ${max}',
+        },
+      };
+  
+      const formState = reactive({
+          name: '',
+          quantity: undefined,
+          brand: '',
+          description: '',
+      });
+      const onFinish = (values: any) => {
+        isLoading.value = true
+        addItems(values)
+        .then(() => {
+           notification.success({
+            message: 'Item registrado',
+            description: 'El item se ha registrado correctamente',
+           })
+        })
+        .catch(() => {
+            notification.error({
+            message: 'Error al registrar',
+            description: 'Ha ocurrido un error al registrar el item',
+            })
+        })
+        .finally(() => {
+          isLoading.value = false
+        })
+
+      };
+   
+  </script>
+  
+  

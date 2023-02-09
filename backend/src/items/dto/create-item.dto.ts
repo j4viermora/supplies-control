@@ -20,9 +20,6 @@ export class CreateItemDto {
     @MinLength(3)
     brand: string;
 
-    @IsMongoId()
-    companyId: string;
-
     @IsString()
     @IsEnum(STATUS_DOCUMENT)
     @IsOptional()
