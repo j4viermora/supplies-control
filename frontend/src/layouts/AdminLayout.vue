@@ -6,7 +6,7 @@
         <a-menu-item key="1">
           <router-link :to="{ name: 'home' }">
             <pie-chart-outlined />
-            <a-skeleton v-if="isLoading" />
+            <a-skeleton v-if="isLoadingSession" />
             <span v-else>Inicio</span>
           </router-link>
         </a-menu-item>
@@ -14,14 +14,14 @@
         <a-menu-item key="2">
           <router-link :to="{ name: 'contacts' }">
             <desktop-outlined />
-            <a-skeleton v-if="isLoading" />
+            <a-skeleton v-if="isLoadingSession" />
             <span v-else>Contactos</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="3">
           <router-link :to="{ name: 'treatments' }">
             <file-outlined />
-            <a-skeleton v-if="isLoading" />
+            <a-skeleton v-if="isLoadingSession" />
             <span v-else>Tratamientos</span>
           </router-link>
         </a-menu-item>
@@ -29,7 +29,7 @@
         <a-menu-item key="4">
           <router-link :to="{ name: 'items' }">
             <desktop-outlined />
-            <a-skeleton v-if="isLoading" />
+            <a-skeleton v-if="isLoadingSession" />
             <span v-else>Insumos</span>
           </router-link>
         </a-menu-item>
@@ -37,7 +37,7 @@
         <a-menu-item key="5">
           <router-link :to="{ name: 'settings' }">
             <file-outlined />
-            <a-skeleton v-if="isLoading" />
+            <a-skeleton v-if="isLoadingSession" />
             <span v-else>Configuracion</span>
           </router-link>
         </a-menu-item>
@@ -72,8 +72,8 @@
             marginTop: '1rem',
           }"
         >
-          <a-spin v-if="isLoading" size="large" />
-          <router-view v-else="isLoading"></router-view>
+          <a-spin v-if="isLoadingSession" size="large" />
+          <router-view v-else></router-view>
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
@@ -94,7 +94,7 @@ import { ref } from "vue";
 import { useSession, useAuth } from "../composables";
 
 const { logout } = useAuth();
-const { getSession, isLoading } = useSession();
+const { getSession, isLoadingSession } = useSession();
 
 getSession();
 

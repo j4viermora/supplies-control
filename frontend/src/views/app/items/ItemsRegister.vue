@@ -22,7 +22,7 @@
         <a-input v-model:value="formState.brand" />
       </a-form-item>
       <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 8 }">
-        <a-button type="primary" html-type="submit">Registrar</a-button>
+        <a-button type="primary" html-type="submit" :loading="isLoading">Registrar</a-button>
       </a-form-item>
     </a-form>
   </template>
@@ -55,14 +55,26 @@
           brand: '',
           description: '',
       });
+
+
+      const resetForm = () => {
+        formState.name = ''
+        formState.quantity = undefined
+        formState.brand = ''
+        formState.description = ''
+      }
+
+
       const onFinish = (values: any) => {
         isLoading.value = true
         addItems(values)
-        .then(() => {
+        .then((resp) => {
+          console.log(resp)
            notification.success({
             message: 'Item registrado',
             description: 'El item se ha registrado correctamente',
            })
+            resetForm()
         })
         .catch(() => {
             notification.error({

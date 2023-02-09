@@ -25,11 +25,11 @@ export const useSession = defineStore('session',() => {
       __v: 0,
     },
   });
-  const loading = ref(true);
-  const hasError = ref(false)
+  const isLoadingSession = ref<boolean>(false);
+  const hasError = ref<boolean>(false)
 
   const getSession = async () => {
-    loading.value = true;
+    isLoadingSession.value = true;
     try {
       if (isOffline) {
         return;
@@ -40,13 +40,13 @@ export const useSession = defineStore('session',() => {
     } catch {
       hasError.value = true
     } finally {
-      loading.value = false;
+      isLoadingSession.value = false;
     }
   };
 
   return {
     // variables
-    isLoading: loading,
+    isLoadingSession,
     hasError,
     session,
 
