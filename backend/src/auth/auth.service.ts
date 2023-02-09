@@ -19,10 +19,10 @@ export class AuthService {
 
   async login({ email, password }: AuthDto) {
     const user = await this.userModel
-      .findOne({ email, status: UserStatus.ACTIVE })
-      .select('password _id roles');
+      .findOne({ email : email.trim().toLocaleLowerCase(), status: UserStatus.ACTIVE })
+      .select('password _id roles company');
     if (!user) this.notValidCredencials();
-    if (!bcrypt.compareSync(password, user.password))
+    if (!bcrypt.compareSync(password, user.password.trim()))
       this.notValidCredencials();
 
 
