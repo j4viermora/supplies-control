@@ -4,11 +4,11 @@
         "base_url": "http://127.0.0.1:5173/"
     },
     "production": {
-        "base_api_url": "https://api.example.com/api/v1",
-        "base_url": "https://example.com"
+        "base_api_url": "https://supplies-control.onrender.com/api/v1",
+        "base_url": "https://supplies-control.onrender.com"
     },
     "testing": {
-        "base_api_url": "https://api.staging.example.com/api/v1",
-        "base_url": "https://staging.example.com"
+        "base_api_url": "https://supplies-control.onrender.com/api/v1",
+        "base_url": "https://supplies-control.onrender.com"
     }
 }
