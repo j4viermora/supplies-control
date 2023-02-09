@@ -29,7 +29,7 @@ import { User, UserSchema } from 'src/users/entities/user.entity';
         return {
           secret: configServices.get('JWT_SECRET'),
           signOptions: {
-            expiresIn: configServices.get('JWT_EXPIRE_IN'),
+            expiresIn: Number(configServices.get('JWT_EXPIRE_IN')) ,
           },
         };
       },
