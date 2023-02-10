@@ -7,3 +7,8 @@ export const add = async (item: IAddItem) => {
   
   return resp
 }
+
+export const get  = async () => {
+  const resp  = fetchApi.get(`/items/company`)
+  return resp
+}

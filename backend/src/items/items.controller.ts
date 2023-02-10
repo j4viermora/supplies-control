@@ -20,7 +20,7 @@ export class ItemsController {
     return this.itemsService.create( companyId.company ,createItemDto);
   }
 
-  @Get()
+  @Get('company/:companyId')
   findAll(
     @Param('companyId', ParseMongoIdPipe) companyId: string
   ) {

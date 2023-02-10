@@ -10,13 +10,18 @@ import Settings from "../views/app/Settings.vue";
 import Contacts from "../views/app/Contacts.vue";
 
 //items
-import Items from "../views/app/Items.vue";
+import Items from "../views/app/items/Items.vue";
 import ItemsRegister from "../views/app/items/ItemsRegister.vue";
+import EditItem from "../views/app/items/EditItem.vue";
 
 // layout
 import AdminLayout from "../layouts/AdminLayout.vue";
 
 export const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     name: "login",
     path: "/login",
@@ -52,6 +57,9 @@ export const routes: RouteRecordRaw[] = [
         path: "contacts",
         component: Contacts,
       },
+
+      // ITEMS ROUTES
+
       {
         name: "items",
         path: "items",
@@ -61,6 +69,11 @@ export const routes: RouteRecordRaw[] = [
         name: 'item-register',
         path: 'items/add',
         component: ItemsRegister
+      },
+      {
+        name: 'item-edit',
+        path: 'items/edit/:id',
+        component: EditItem
       }
     ],
   },
