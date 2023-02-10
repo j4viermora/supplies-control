@@ -21,18 +21,22 @@ export class ItemsController {
   }
 
   @Get('company/:companyId')
+  @Auth(ValidRoles.ADMIN)
   findAll(
-    @Param('companyId', ParseMongoIdPipe) companyId: string
+    @GetUser(['company']) companyId: { company: string }
   ) {
-    return this.itemsService.findAll(companyId);
+    return this.itemsService.findAll(companyId.company);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseMongoIdPipe) id: string) {
+  @Auth(ValidRoles.ADMIN)
+  findOne(
+    @Param('id', ParseMongoIdPipe) id: string) {
     return this.itemsService.findOne(id);
   }
 
   @Patch(':id')
+  @Auth(ValidRoles.ADMIN)
   update(
     @Param('id', ParseMongoIdPipe) id: string,
     @Body() updateItemDto: UpdateItemDto
@@ -40,6 +44,7 @@ export class ItemsController {
     return this.itemsService.update(id, updateItemDto);
   }
 
+  @Auth(ValidRoles.ADMIN)
   @Delete(':id')
   remove(@Param('id', ParseMongoIdPipe) id: string) {
     return this.itemsService.remove(id);
