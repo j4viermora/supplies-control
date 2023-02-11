@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { Auth } from 'src/auth/decorators';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { ValidRoles } from 'src/auth/enums/valid-roles';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
@@ -20,7 +21,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('companies')
 export class CompanyController {
-  constructor(private readonly communitiesService: CommunitiesService) { }
+  constructor(private readonly communitiesService: CommunitiesService) {}
 
   @Post()
   create(@Body() createCompanyDTO: CreateCompanyDto) {
@@ -39,13 +40,13 @@ export class CompanyController {
     return this.communitiesService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch()
   @Auth(ValidRoles.ADMIN)
   update(
-    @Param('id', ParseMongoIdPipe) id: string,
+    @GetUser(['company']) companyId: { company: string },
     @Body() updateCompanyDto: UpdateCompanyDto,
   ) {
-    return this.communitiesService.update(id, UpdateCompanyDto);
+    return this.communitiesService.update(companyId.company, updateCompanyDto);
   }
 
   @Delete(':id')

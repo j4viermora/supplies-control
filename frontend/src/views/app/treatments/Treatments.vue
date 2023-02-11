@@ -39,16 +39,16 @@ const cancel = () => {
 <template>
   <a-row>
     <a-col :span="10">
-      <a-typography-title :level="3">Insumos</a-typography-title>
+      <a-typography-title :level="3">Consultas</a-typography-title>
     </a-col>
     <a-col>
       <RouterLink :to="{ name: 'item-register' }">
-        <a-button type="primary">Registar producto</a-button>
+        <a-button type="primary">Registrar consulta</a-button>
       </RouterLink>
     </a-col>
   </a-row>
   <a-divider />
-  <a-row> Total de items: {{ items.items.metadata.totalDocs }} </a-row>
+  <a-row> Total de consultas: {{ items.items.metadata.totalDocs }} </a-row>
   <a-divider />
   <a-row :gutter="16" type="flex">
     <a-spin v-if="items.isLoading" />

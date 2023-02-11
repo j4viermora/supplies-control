@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import {
+  PieChartOutlined,
+  DesktopOutlined,
+  FileOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons-vue";
+import { ref } from "vue";
+import { useSession, useAuth } from "../composables";
+
+const { logout } = useAuth();
+const { getSession, isLoadingSession } = useSession();
+
+getSession();
+
+const collapsed = ref<boolean>(false);
+const selectedKeys = ref<string[]>(["1"]);
+const currentYear = new Date().getFullYear();
+</script>
+
 <template>
   <a-layout style="min-height: 100vh">
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
@@ -13,7 +35,7 @@
 
         <a-menu-item key="2">
           <router-link :to="{ name: 'contacts' }">
-            <desktop-outlined />
+            <UserOutlined />
             <a-skeleton v-if="isLoadingSession" />
             <span v-else>Contactos</span>
           </router-link>
@@ -36,7 +58,7 @@
 
         <a-menu-item key="5">
           <router-link :to="{ name: 'settings' }">
-            <file-outlined />
+            <SettingOutlined />
             <a-skeleton v-if="isLoadingSession" />
             <span v-else>Configuracion</span>
           </router-link>
@@ -83,25 +105,7 @@
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts" setup>
-import {
-  PieChartOutlined,
-  DesktopOutlined,
-  FileOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons-vue";
-import { ref } from "vue";
-import { useSession, useAuth } from "../composables";
 
-const { logout } = useAuth();
-const { getSession, isLoadingSession } = useSession();
-
-getSession();
-
-const collapsed = ref<boolean>(false);
-const selectedKeys = ref<string[]>(["1"]);
-const currentYear = new Date().getFullYear();
-</script>
 <style>
 #components-layout-demo-side .logo {
   height: 32px;

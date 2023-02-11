@@ -27,7 +27,7 @@
           <a-input v-model:value="formState.name" />
         </a-form-item>
         <a-form-item :name="'description'" label="Descripción">
-          <a-input v-model:value="formState.description" />
+          <a-textarea v-model:value="formState.description" />
         </a-form-item>
         <a-form-item
           :name="'quantity'"
@@ -91,15 +91,15 @@ const onFinish = (values: any) => {
   update(String(route.params.id), values)
     .then(() => {
       notification.success({
-        message: "Item registrado",
-        description: "El item se ha registrado correctamente",
+        message: "Item actualizado",
+        description: "El item se ha actualizado correctamente",
       });
       router.push({ name: "items" });
     })
     .catch(() => {
       notification.error({
-        message: "Error al registrar",
-        description: "Ha ocurrido un error al registrar el item",
+        message: "Error al actualizar el item",
+        description: "Ha ocurrido un error al actualizar el item",
       });
     })
     .finally(() => {

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -9,29 +17,26 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 
 @Controller('items')
 export class ItemsController {
-  constructor(private readonly itemsService: ItemsService) { }
+  constructor(private readonly itemsService: ItemsService) {}
 
   @Post()
   @Auth(ValidRoles.ADMIN)
   create(
     @Body() createItemDto: CreateItemDto,
-    @GetUser(['company']) companyId: { company: string }
+    @GetUser(['company']) companyId: { company: string },
   ) {
-    return this.itemsService.create( companyId.company ,createItemDto);
+    return this.itemsService.create(companyId.company, createItemDto);
   }
 
   @Get('company')
   @Auth(ValidRoles.ADMIN)
-  findAll(
-    @GetUser(['company']) companyId: { company: string }
-  ) {
+  findAll(@GetUser(['company']) companyId: { company: string }) {
     return this.itemsService.findAll(companyId.company);
   }
 
   @Get(':id')
   @Auth(ValidRoles.ADMIN)
-  findOne(
-    @Param('id', ParseMongoIdPipe) id: string) {
+  findOne(@Param('id', ParseMongoIdPipe) id: string) {
     return this.itemsService.findOne(id);
   }
 
@@ -39,7 +44,7 @@ export class ItemsController {
   @Auth(ValidRoles.ADMIN)
   update(
     @Param('id', ParseMongoIdPipe) id: string,
-    @Body() updateItemDto: UpdateItemDto
+    @Body() updateItemDto: UpdateItemDto,
   ) {
     return this.itemsService.update(id, updateItemDto);
   }

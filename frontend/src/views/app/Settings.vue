@@ -1,7 +1,11 @@
 <script lang="ts" setup>
-import { reactive, computed } from "vue";
-import { useSession } from "../../composables";
-const { session } = useSession();
+import { notification } from "ant-design-vue";
+import { reactive, computed, ref } from "vue";
+import { useCompany, useSession } from "../../composables";
+const { session, getSession } = useSession();
+const { updateCompany } = useCompany();
+
+const isLoading = ref<boolean>(false);
 
 const layout = {
   labelCol: { span: 4 },
@@ -19,8 +23,27 @@ const lastUpdate = computed(() => {
   return new Date(session.company.updatedAt).toLocaleDateString();
 });
 
-const onFinish = (values: any) => {
-  console.log(formState);
+const onFinish = () => {
+  isLoading.value = true;
+  //@ts-ignore
+  updateCompany({
+    name: formState.name,
+  })
+    .then(() => {
+      notification.success({
+        message: "Actualizacion exitosa",
+        description: "La informacion de la empresa ha sido actualizada",
+      });
+      getSession();
+    })
+    .catch((err) => {
+      console.log(err);
+      notification.error({
+        message: "Error al actualizar",
+        description: "La informacion de la empresa no ha sido actualizada",
+      });
+    })
+    .finally(() => (isLoading.value = false));
 };
 </script>
 
@@ -51,7 +74,9 @@ const onFinish = (values: any) => {
           <a-input :value="formState.owner" disabled />
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit"> Actualizar </a-button>
+          <a-button type="primary" html-type="submit" :loading="isLoading">
+            Actualizar
+          </a-button>
         </a-form-item>
       </a-form>
     </a-col>

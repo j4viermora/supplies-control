@@ -44,8 +44,6 @@ export const useSession = defineStore("session", () => {
     }
   };
 
-  const updateCompany = () => {};
-
   return {
     // variables
     isLoadingSession,
@@ -54,6 +52,5 @@ export const useSession = defineStore("session", () => {
 
     // functions
     getSession,
-    updateCompany,
   };
 });
