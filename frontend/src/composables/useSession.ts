@@ -1,11 +1,11 @@
 import { ref } from "vue";
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 import * as user from "../api/user";
 import { ISession } from "../interfaces/session.interfaces";
 
 const isOffline = import.meta.env.VITE_MODE === "offline";
 
-export const useSession = defineStore('session',() => {
+export const useSession = defineStore("session", () => {
   const session = ref<ISession>({
     user: {
       name: "javier",
@@ -26,7 +26,7 @@ export const useSession = defineStore('session',() => {
     },
   });
   const isLoadingSession = ref<boolean>(false);
-  const hasError = ref<boolean>(false)
+  const hasError = ref<boolean>(false);
 
   const getSession = async () => {
     isLoadingSession.value = true;
@@ -34,15 +34,17 @@ export const useSession = defineStore('session',() => {
       if (isOffline) {
         return;
       }
-      const { data } = await user.getSession()
+      const { data } = await user.getSession();
       session.value = data;
-      hasError.value = false
+      hasError.value = false;
     } catch {
-      hasError.value = true
+      hasError.value = true;
     } finally {
       isLoadingSession.value = false;
     }
   };
+
+  const updateCompany = () => {};
 
   return {
     // variables
@@ -51,6 +53,7 @@ export const useSession = defineStore('session',() => {
     session,
 
     // functions
-    getSession,   
+    getSession,
+    updateCompany,
   };
 });
