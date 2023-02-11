@@ -1,35 +1,36 @@
 <script setup lang="ts">
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons-vue";
+import { onMounted } from "vue";
+import { notification } from 'ant-design-vue'
+import { useItems } from "../../../composables";
 
-const itemsData = [
-  {
-    _id: "63e53592e3014cf0ca7525c4",
-    name: "guantes",
-    description: "some description",
-    quantity: 10,
-    brand: "marca guantes",
-    companyId: "63dfedd0ba4a43c056a1e2c1",
-    status: "active",
-    createdAt: "2023-02-09T18:04:02.762Z",
-    updatedAt: "2023-02-09T18:04:02.762Z",
-    __v: 0,
-  },
-  {
-    _id: "63e535acdc520a77ec6506d3",
-    name: "guantes",
-    description: "some description",
-    quantity: 10,
-    brand: "marca guantes",
-    companyId: "63dfedd0ba4a43c056a1e2c1",
-    status: "active",
-    createdAt: "2023-02-09T18:04:28.683Z",
-    updatedAt: "2023-02-09T18:04:28.683Z",
-    __v: 0,
-  },
-];
+const items = useItems()
 
-const confirm = () => {
-  console.log("confirm");
+onMounted(() => {
+ items.getAll();
+});
+
+const confirm = (id: string) => {
+  items.setLoading()
+  items.remove(id)
+  .then(
+    () => {
+      notification.success({
+        message: 'Producto eliminado',
+        description: 'El producto ha sido eliminado correctamente'
+      })
+      items.getAll()
+    }
+  )
+  .catch(() => {
+    notification.error({
+      message: 'Error al eliminar el producto',
+      description: 'Ha ocurrido un error al eliminar el producto'
+    })
+  })
+  .finally(() => {
+    items.clearLoading()
+  })
 };
 
 const cancel = () => {
@@ -48,8 +49,13 @@ const cancel = () => {
     </a-col>
   </a-row>
   <a-divider />
-  <a-row :gutter="16">
-    <a-col v-for="item in itemsData" :key="item._id" :span="6">
+  <a-row>
+   Total de items: {{ items.items.metadata.totalDocs }}
+  </a-row>
+  <a-divider/>
+  <a-row :gutter="16" type="flex">
+    <a-spin v-if="items.isLoading" />
+    <a-col v-else v-for="item  in items.items.docs" :key="item._id" :xs="{ span: 24 }" :md="{span: 6}">
       <a-card type="inner" :title="item.name" hoverable>
         <p><strong>Detalles:</strong> {{ item.description }}</p>
         <p><strong>Stock:</strong> {{ item.quantity }}</p>
@@ -62,7 +68,7 @@ const cancel = () => {
             title="Esta seguro que desea eliminar este producto?"
             ok-text="Si"
             cancel-text="No"
-            @confirm="confirm"
+            @confirm="confirm(item._id)"
             @cancel="cancel"
           >
             <DeleteOutlined />

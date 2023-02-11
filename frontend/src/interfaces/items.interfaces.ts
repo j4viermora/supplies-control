@@ -17,10 +17,10 @@ export interface IAddItem {
 
 
 export interface IItemsReponse extends IMetaData{
-    docs: Doc[];
+    docs: Item[];
 }
 
-export interface Doc {
+export type Item = {
     _id:         string;
     name:        string;
     description: string;

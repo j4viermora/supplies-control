@@ -20,7 +20,7 @@ export class ItemsController {
     return this.itemsService.create( companyId.company ,createItemDto);
   }
 
-  @Get('company/:companyId')
+  @Get('company')
   @Auth(ValidRoles.ADMIN)
   findAll(
     @GetUser(['company']) companyId: { company: string }

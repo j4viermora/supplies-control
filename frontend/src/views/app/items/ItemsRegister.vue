@@ -61,8 +61,8 @@ const isLoading = ref(false);
 const { addItems } = useItems();
 
 const layout = {
-  labelCol: { span: 2 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
 };
 
 const validateMessages = {

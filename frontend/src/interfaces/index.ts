@@ -7,7 +7,7 @@ export interface IMetaData {
     pagingCounter: number;
     hasPrevPage:   boolean;
     hasNextPage:   boolean;
-    prevPage:      null;
+    prevPage:      number;
     nextPage:      number;
 }
 
