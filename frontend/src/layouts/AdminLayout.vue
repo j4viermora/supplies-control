@@ -44,7 +44,7 @@ const currentYear = new Date().getFullYear();
           <router-link :to="{ name: 'treatments' }">
             <file-outlined />
             <a-skeleton v-if="isLoadingSession" />
-            <span v-else>Tratamientos</span>
+            <span v-else>Consultas</span>
           </router-link>
         </a-menu-item>
 
