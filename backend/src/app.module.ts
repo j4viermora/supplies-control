@@ -15,6 +15,9 @@ import { ItemsModule } from './items/items.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { TreatmentsTemplatesModule } from './treatments-templates/treatments-templates.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { ResportsModule } from './resports/resports.module';
+import { MailerModule } from './mailer/mailer.module';
+import { DocumentGeneratorModule } from './document-generator/document-generator.module';
 
 
 @Module({
@@ -41,6 +44,9 @@ import { ContactsModule } from './contacts/contacts.module';
     TreatmentsModule,
     TreatmentsTemplatesModule,
     ContactsModule,
+    ResportsModule,
+    MailerModule,
+    DocumentGeneratorModule,
 
   ],
   controllers: [AppController],
